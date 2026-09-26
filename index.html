@@ -1,581 +1,428 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <title>Мой учебный день</title>
-
-    <style>
-        * {
-            box-sizing: border-box;
-        }
-
-        body {
-            margin: 0;
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-            background: #f8f5ff;
-            color: #403b52;
-        }
-
-        .app {
-            max-width: 600px;
-            margin: auto;
-            padding: 22px 16px 40px;
-        }
-
-        /* ШАПКА */
-
-        .hello {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-        }
-
-        .hello h1 {
-            margin: 0;
-            font-size: 27px;
-        }
-
-        .hello p {
-            margin: 6px 0 0;
-            color: #918ba5;
-            font-size: 14px;
-        }
-
-        .avatar {
-            width: 48px;
-            height: 48px;
-            border-radius: 16px;
-            background: #eadfff;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 24px;
-        }
-
-        /* ОСНОВНАЯ КАРТОЧКА */
-
-        .morning-card {
-            background: linear-gradient(135deg, #eadfff, #f8ddea);
-            border-radius: 27px;
-            padding: 23px;
-            margin-bottom: 18px;
-            box-shadow: 0 10px 30px rgba(150, 120, 180, 0.12);
-        }
-
-        .morning-title {
-            font-size: 15px;
-            color: #766b82;
-        }
-
-        .wake-time {
-            font-size: 42px;
-            font-weight: 700;
-            margin: 5px 0;
-            color: #4c435b;
-        }
-
-        .morning-info {
-            display: flex;
-            gap: 10px;
-            margin-top: 18px;
-        }
-
-        .mini-info {
-            background: rgba(255,255,255,0.65);
-            border-radius: 17px;
-            padding: 12px;
-            flex: 1;
-        }
-
-        .mini-info span {
-            display: block;
-            font-size: 12px;
-            color: #8b8297;
-        }
-
-        .mini-info b {
-            display: block;
-            margin-top: 4px;
-            font-size: 15px;
-        }
-
-        /* ПОГОДА */
-
-        .card {
-            background: white;
-            border-radius: 24px;
-            padding: 20px;
-            margin-bottom: 18px;
-            box-shadow: 0 6px 25px rgba(80, 70, 100, 0.06);
-        }
-
-        .card-title {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 15px;
-        }
-
-        .card-title h2 {
-            margin: 0;
-            font-size: 19px;
-        }
-
-        .weather-main {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-        }
-
-        .weather-icon {
-            font-size: 48px;
-        }
-
-        .temperature {
-            font-size: 30px;
-            font-weight: 700;
-        }
-
-        .weather-text {
-            color: #8d879b;
-            margin-top: 3px;
-        }
-
-        /* ДНИ НЕДЕЛИ */
-
-        .week {
-            display: flex;
-            gap: 8px;
-            overflow-x: auto;
-            padding-bottom: 5px;
-        }
-
-        .day {
-            min-width: 67px;
-            border: none;
-            background: #f4f1fa;
-            border-radius: 17px;
-            padding: 12px 8px;
-            cursor: pointer;
-            color: #716b7f;
-        }
-
-        .day-name {
-            font-size: 12px;
-        }
-
-        .day-number {
-            font-size: 20px;
-            font-weight: 700;
-            margin-top: 4px;
-        }
-
-        .day.active {
-            background: #9b89e8;
-            color: white;
-            box-shadow: 0 7px 18px rgba(155,137,232,0.3);
-        }
-
-        /* РАСПИСАНИЕ */
-
-        .lesson {
-            display: flex;
-            align-items: center;
-            gap: 14px;
-            padding: 14px 0;
-            border-bottom: 1px solid #eeeaf4;
-        }
-
-        .lesson:last-child {
-            border-bottom: none;
-        }
-
-        .lesson-number {
-            width: 39px;
-            height: 39px;
-            border-radius: 13px;
-            background: #f0eaff;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: 700;
-            color: #806fd1;
-        }
-
-        .lesson-info {
-            flex: 1;
-        }
-
-        .lesson-name {
-            font-weight: 600;
-            font-size: 15px;
-        }
-
-        .lesson-time {
-            color: #9891a5;
-            font-size: 13px;
-            margin-top: 4px;
-        }
-
-        /* ДОРОГА */
-
-        .route {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-        }
-
-        .route-icon {
-            width: 45px;
-            height: 45px;
-            border-radius: 15px;
-            background: #e4f5ed;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 23px;
-        }
-
-        .route b {
-            display: block;
-            font-size: 16px;
-        }
-
-        .route span {
-            color: #9891a5;
-            font-size: 13px;
-        }
-
-        /* НИЖНЕЕ МЕНЮ */
-
-        .bottom-menu {
-            position: sticky;
-            bottom: 12px;
-            background: rgba(255,255,255,0.94);
-            backdrop-filter: blur(15px);
-            border-radius: 22px;
-            padding: 9px;
-            display: flex;
-            justify-content: space-around;
-            box-shadow: 0 8px 30px rgba(60,50,80,0.12);
-            margin-top: 20px;
-        }
-
-        .menu-item {
-            border: none;
-            background: none;
-            color: #9992a8;
-            padding: 8px 15px;
-            border-radius: 15px;
-            cursor: pointer;
-            font-size: 12px;
-        }
-
-        .menu-item div {
-            font-size: 20px;
-            margin-bottom: 3px;
-        }
-
-        .menu-item.active {
-            background: #eee8ff;
-            color: #7763cf;
-        }
-
-        /* АДАПТАЦИЯ */
-
-        @media (max-width: 400px) {
-            .app {
-                padding: 18px 12px 30px;
-            }
-
-            .wake-time {
-                font-size: 37px;
-            }
-
-            .day {
-                min-width: 61px;
-            }
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Моё приложение</title>
+<style>
+*{box-sizing:border-box}
+body{
+    margin:0;
+    font-family:Arial,sans-serif;
+    background:linear-gradient(135deg,#edf5ff,#f8f0ff);
+    color:#252936;
+}
+.container{
+    max-width:720px;
+    margin:auto;
+    padding:16px;
+}
+header{
+    text-align:center;
+    padding:18px 5px;
+}
+h1{margin:0;font-size:28px}
+h2{margin-top:0}
+.card{
+    background:white;
+    border-radius:22px;
+    padding:20px;
+    margin-bottom:16px;
+    box-shadow:0 7px 25px rgba(0,0,0,.07);
+}
+.clock{
+    text-align:center;
+    font-size:55px;
+    font-weight:700;
+}
+.city,.date{
+    text-align:center;
+    color:#727272;
+}
+.weather{
+    text-align:center;
+    margin-top:12px;
+}
+.icon{font-size:42px}
+.temp{font-size:36px;font-weight:bold}
+button,input,select{
+    width:100%;
+    border:0;
+    border-radius:12px;
+    padding:13px;
+    font-size:16px;
+}
+input,select{
+    border:1px solid #ddd;
+    margin-bottom:9px;
+}
+button{
+    background:#718cff;
+    color:white;
+    cursor:pointer;
+}
+button.secondary{
+    background:#edf0ff;
+    color:#43507c;
+}
+.task{
+    display:flex;
+    gap:8px;
+    align-items:center;
+    padding:11px;
+    background:#f5f7ff;
+    border-radius:12px;
+    margin-top:8px;
+}
+.task button{
+    width:auto;
+    padding:7px 10px;
+    margin-left:auto;
+    background:#ff8585;
+}
+.route{
+    display:flex;
+    gap:8px;
+    align-items:center;
+}
+.route select{
+    margin:0;
+}
+.route-time{
+    text-align:center;
+    font-weight:bold;
+    margin-top:12px;
+}
+.week{
+    text-align:center;
+    font-size:24px;
+    font-weight:bold;
+}
+.lesson{
+    padding:13px;
+    margin-top:8px;
+    border-radius:12px;
+    background:#f5f7ff;
+}
+.lesson b{display:block}
+.small{
+    color:#777;
+    font-size:14px;
+    margin-top:8px;
+    text-align:center;
+}
+a{
+    color:#647cff;
+    text-decoration:none;
+}
+</style>
 </head>
-
 <body>
-
-<div class="app">
-
-    <!-- ШАПКА -->
-    <div class="hello">
-        <div>
-            <h1>Привет, Диляра 🌷</h1>
-            <p>Твой учебный день</p>
-        </div>
-
-        <div class="avatar">🎀</div>
-    </div>
-
-
-    <!-- УТРО -->
-    <div class="morning-card">
-
-        <div class="morning-title">
-            ⏰ Сегодня нужно проснуться
-        </div>
-
-        <div class="wake-time">
-            07:00
-        </div>
-
-        <div class="morning-info">
-
-            <div class="mini-info">
-                <span>🚿 Утро</span>
-                <b>40 минут</b>
-            </div>
-
-            <div class="mini-info">
-                <span>🚶 Выход</span>
-                <b>07:40</b>
-            </div>
-
-        </div>
-
-    </div>
-
-
-    <!-- ПОГОДА -->
-    <div class="card">
-
-        <div class="card-title">
-            <h2>🌤 Погода</h2>
-            <span>Сегодня</span>
-        </div>
-
-        <div class="weather-main">
-
-            <div class="weather-icon">
-                ☁️
-            </div>
-
-            <div>
-                <div class="temperature">
-                    +12°
-                </div>
-
-                <div class="weather-text">
-                    Облачно
-                </div>
-            </div>
-
-        </div>
-
-    </div>
-
-
-    <!-- НЕДЕЛЯ -->
-    <div class="card">
-
-        <div class="card-title">
-            <h2>📅 Неделя</h2>
-        </div>
-
-        <div class="week">
-
-            <button class="day" onclick="selectDay(this)">
-                <div class="day-name">ПН</div>
-                <div class="day-number">28</div>
-            </button>
-
-            <button class="day active" onclick="selectDay(this)">
-                <div class="day-name">ВТ</div>
-                <div class="day-number">29</div>
-            </button>
-
-            <button class="day" onclick="selectDay(this)">
-                <div class="day-name">СР</div>
-                <div class="day-number">30</div>
-            </button>
-
-            <button class="day" onclick="selectDay(this)">
-                <div class="day-name">ЧТ</div>
-                <div class="day-number">1</div>
-            </button>
-
-            <button class="day" onclick="selectDay(this)">
-                <div class="day-name">ПТ</div>
-                <div class="day-number">2</div>
-            </button>
-
-            <button class="day" onclick="selectDay(this)">
-                <div class="day-name">СБ</div>
-                <div class="day-number">3</div>
-            </button>
-
-            <button class="day" onclick="selectDay(this)">
-                <div class="day-name">ВС</div>
-                <div class="day-number">4</div>
-            </button>
-
-        </div>
-
-    </div>
-
-
-    <!-- РАСПИСАНИЕ -->
-    <div class="card">
-
-        <div class="card-title">
-            <h2>📚 Расписание</h2>
-            <span>Вторник</span>
-        </div>
-
-
-        <div class="lesson">
-
-            <div class="lesson-number">
-                1
-            </div>
-
-            <div class="lesson-info">
-                <div class="lesson-name">
-                    Математика
-                </div>
-
-                <div class="lesson-time">
-                    08:30 — 10:00
-                </div>
-            </div>
-
-        </div>
-
-
-        <div class="lesson">
-
-            <div class="lesson-number">
-                2
-            </div>
-
-            <div class="lesson-info">
-                <div class="lesson-name">
-                    Физика
-                </div>
-
-                <div class="lesson-time">
-                    10:10 — 11:40
-                </div>
-            </div>
-
-        </div>
-
-
-        <div class="lesson">
-
-            <div class="lesson-number">
-                3
-            </div>
-
-            <div class="lesson-info">
-                <div class="lesson-name">
-                    Информатика
-                </div>
-
-                <div class="lesson-time">
-                    12:00 — 13:30
-                </div>
-            </div>
-
-        </div>
-
-
-        <div class="lesson">
-
-            <div class="lesson-number">
-                4
-            </div>
-
-            <div class="lesson-info">
-                <div class="lesson-name">
-                    Русский язык
-                </div>
-
-                <div class="lesson-time">
-                    13:40 — 15:10
-                </div>
-            </div>
-
-        </div>
-
-    </div>
-
-
-    <!-- ДОРОГА -->
-    <div class="card">
-
-        <div class="card-title">
-            <h2>🚶 Дорога</h2>
-        </div>
-
-        <div class="route">
-
-            <div class="route-icon">
-                🚌
-            </div>
-
-            <div>
-                <b>Общежитие → колледж</b>
-                <span>Примерно 40 минут</span>
-            </div>
-
-        </div>
-
-    </div>
-
-
-    <!-- НИЖНЕЕ МЕНЮ -->
-
-    <div class="bottom-menu">
-
-        <button class="menu-item active">
-            <div>🏠</div>
-            Главная
-        </button>
-
-        <button class="menu-item">
-            <div>📅</div>
-            Неделя
-        </button>
-
-        <button class="menu-item">
-            <div>⏰</div>
-            Будильник
-        </button>
-
-        <button class="menu-item">
-            <div>⚙️</div>
-            Настройки
-        </button>
-
-    </div>
-
+<div class="container">
+<header>
+<h1>📚 Мой учебный помощник</h1>
+<div class="city">1 курс · ОИБАС Б</div>
+</header>
+<!-- ВРЕМЯ -->
+<div class="card">
+<div class="city">📍 Уфа</div>
+<div id="clock" class="clock">00:00</div>
+<div id="date" class="date">Загрузка...</div>
+<div class="weather">
+<div id="weatherIcon" class="icon">🌤️</div>
+<div id="temperature" class="temp">—°C</div>
+<div id="weatherText">Загрузка погоды...</div>
 </div>
-
-
+</div>
+<!-- БУДИЛЬНИК -->
+<div class="card">
+<h2>⏰ Утро</h2>
+<div style="text-align:center;font-size:32px;font-weight:bold">
+06:40
+</div>
+<p style="text-align:center">
+Пора вставать ☀️
+</p>
+<button onclick="testAlarm()">
+🔔 Проверить
+</button>
+</div>
+<!-- РАСПИСАНИЕ -->
+<div class="card">
+<h2>📅 Расписание</h2>
+<div class="week">
+<span id="weekNumber">—</span> учебная неделя
+</div>
+<p style="text-align:center">
+Группа: <b>1 ОИБАС Б</b>
+</p>
+<div style="display:flex;gap:8px">
+<button class="secondary" onclick="previousDay()">←</button>
+<button class="secondary" onclick="today()">Сегодня</button>
+<button class="secondary" onclick="nextDay()">→</button>
+</div>
+<h3 id="scheduleDate" style="text-align:center"></h3>
+<div id="schedule">
+    <div class="lesson">
+        📌 Расписание загружается с официального источника.
+    </div>
+</div>
+<p class="small">
+<a href="https://umpksch.ru/" target="_blank">
+Открыть официальное расписание УМПК
+</a>
+</p>
+</div>
+<!-- ДОМАШНЕЕ ЗАДАНИЕ -->
+<div class="card">
+<h2>📝 Домашнее задание</h2>
+<input
+id="homeworkInput"
+placeholder="Например: математика №45">
+<button onclick="addHomework()">
+➕ Добавить
+</button>
+<div id="homeworkList"></div>
+</div>
+<!-- ДОРОГА -->
+<div class="card">
+<h2>🚶 Дорога</h2>
+<div class="route">
+<select id="fromPlace" onchange="updateRoute()">
+<option value="college">🏫 Колледж</option>
+<option value="dorm">🏠 Общежитие</option>
+</select>
+<span>→</span>
+<select id="toPlace" onchange="updateRoute()">
+<option value="dorm">🏠 Общежитие</option>
+<option value="college">🏫 Колледж</option>
+</select>
+</div>
+<div class="route-time">
+⏱️ <span id="routeTime">5 минут</span>
+</div>
+</div>
+<div class="small">
+Погода обновляется автоматически
+</div>
+</div>
 <script>
-
-    function selectDay(button) {
-
-        const days = document.querySelectorAll(".day");
-
-        days.forEach(function(day) {
-            day.classList.remove("active");
-        });
-
-        button.classList.add("active");
+/* =========================
+   ЧАСЫ УФЫ
+========================= */
+function updateClock(){
+    const now=new Date();
+    const time=new Intl.DateTimeFormat("ru-RU",{
+        timeZone:"Asia/Yekaterinburg",
+        hour:"2-digit",
+        minute:"2-digit",
+        hour12:false
+    }).format(now);
+    const date=new Intl.DateTimeFormat("ru-RU",{
+        timeZone:"Asia/Yekaterinburg",
+        weekday:"long",
+        day:"numeric",
+        month:"long",
+        year:"numeric"
+    }).format(now);
+    document.getElementById("clock").textContent=time;
+    document.getElementById("date").textContent=
+        date.charAt(0).toUpperCase()+date.slice(1);
+    checkAlarm(time);
+}
+setInterval(updateClock,1000);
+updateClock();
+/* =========================
+   ПОГОДА УФЫ
+========================= */
+async function getWeather(){
+    try{
+        const url=
+        "https://api.open-meteo.com/v1/forecast"+
+        "?latitude=54.7388"+
+        "&longitude=55.9721"+
+        "&current=temperature_2m,weather_code"+
+        "&timezone=Asia%2FYekaterinburg";
+        const response=await fetch(url);
+        const data=await response.json();
+        const temp=Math.round(
+            data.current.temperature_2m
+        );
+        const code=data.current.weather_code;
+        document.getElementById("temperature").textContent=
+            temp+"°C";
+        document.getElementById("weatherText").textContent=
+            weatherText(code);
+        document.getElementById("weatherIcon").textContent=
+            weatherIcon(code);
+    }catch(e){
+        document.getElementById("weatherText").textContent=
+            "Погода временно недоступна";
     }
-
+}
+function weatherText(code){
+    if(code===0)return"Ясно";
+    if([1,2,3].includes(code))return"Облачно";
+    if([45,48].includes(code))return"Туман";
+    if([51,53,55,56,57].includes(code))return"Морось";
+    if([61,63,65,66,67].includes(code))return"Дождь";
+    if([71,73,75,77].includes(code))return"Снег";
+    if([80,81,82].includes(code))return"Ливень";
+    if([85,86].includes(code))return"Снегопад";
+    if([95,96,99].includes(code))return"Гроза";
+    return"Погода";
+}
+function weatherIcon(code){
+    if(code===0)return"☀️";
+    if([1,2,3].includes(code))return"🌤️";
+    if([45,48].includes(code))return"🌫️";
+    if([51,53,55,56,57].includes(code))return"🌦️";
+    if([61,63,65,66,67].includes(code))return"🌧️";
+    if([71,73,75,77].includes(code))return"❄️";
+    if([80,81,82].includes(code))return"🌧️";
+    if([85,86].includes(code))return"🌨️";
+    if([95,96,99].includes(code))return"⛈️";
+    return"🌤️";
+}
+getWeather();
+setInterval(getWeather,600000);
+/* =========================
+   06:40
+========================= */
+let alarmShown=false;
+function checkAlarm(time){
+    if(time==="06:40"&&!alarmShown){
+        alarmShown=true;
+        alert("⏰ Пора вставать! Сейчас 06:40 ☀️");
+    }
+    if(time!=="06:40"){
+        alarmShown=false;
+    }
+}
+function testAlarm(){
+    alert("⏰ Пора вставать! Сейчас 06:40 ☀️");
+}
+/* =========================
+   ДЗ
+========================= */
+let homework=
+JSON.parse(localStorage.getItem("homework")||"[]");
+function saveHomework(){
+    localStorage.setItem(
+        "homework",
+        JSON.stringify(homework)
+    );
+}
+function addHomework(){
+    const input=
+    document.getElementById("homeworkInput");
+    const value=input.value.trim();
+    if(!value)return;
+    homework.push(value);
+    input.value="";
+    saveHomework();
+    renderHomework();
+}
+function deleteHomework(index){
+    homework.splice(index,1);
+    saveHomework();
+    renderHomework();
+}
+function renderHomework(){
+    const list=
+    document.getElementById("homeworkList");
+    list.innerHTML="";
+    homework.forEach((item,index)=>{
+        const div=document.createElement("div");
+        div.className="task";
+        div.innerHTML=
+        "📚 "+item+
+        '<button onclick="deleteHomework('+index+')">✓</button>';
+        list.appendChild(div);
+    });
+}
+renderHomework();
+/* =========================
+   ДОРОГА
+========================= */
+function updateRoute(){
+    const from=
+    document.getElementById("fromPlace").value;
+    const to=
+    document.getElementById("toPlace").value;
+    const result=
+    document.getElementById("routeTime");
+    if(from===to){
+        result.textContent=
+        "Выберите разные места";
+        return;
+    }
+    result.textContent="5 минут";
+}
+/* =========================
+   НЕДЕЛЯ
+   Автоматически меняется
+   по календарю
+========================= */
+/*
+   1 сентября 2026 =
+   начало 1-й учебной недели.
+   Каждые 7 дней номер
+   увеличивается автоматически.
+*/
+function getStudyWeek(date){
+    const start=
+    new Date("2026-09-01T00:00:00+05:00");
+    const current=
+    new Date(date);
+    const difference=
+    current.getTime()-start.getTime();
+    const days=
+    Math.floor(
+        difference/(1000*60*60*24)
+    );
+    if(days<0)return 1;
+    return Math.floor(days/7)+1;
+}
+function updateWeek(){
+    const week=
+    getStudyWeek(new Date());
+    document.getElementById("weekNumber")
+    .textContent=week;
+}
+updateWeek();
+/* =========================
+   ПЕРЕКЛЮЧЕНИЕ ДНЕЙ
+========================= */
+let selectedDate=new Date();
+function renderScheduleDate(){
+    const text=
+    new Intl.DateTimeFormat("ru-RU",{
+        weekday:"long",
+        day:"numeric",
+        month:"long"
+    }).format(selectedDate);
+    document.getElementById("scheduleDate")
+    .textContent=
+        text.charAt(0).toUpperCase()+text.slice(1);
+}
+function previousDay(){
+    selectedDate.setDate(
+        selectedDate.getDate()-1
+    );
+    renderScheduleDate();
+}
+function nextDay(){
+    selectedDate.setDate(
+        selectedDate.getDate()+1
+    );
+    renderScheduleDate();
+}
+function today(){
+    selectedDate=new Date();
+    renderScheduleDate();
+}
+renderScheduleDate();
 </script>
-
 </body>
 </html>
